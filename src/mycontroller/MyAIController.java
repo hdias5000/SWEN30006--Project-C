@@ -26,8 +26,11 @@ public class MyAIController extends CarController{
 	// Offset used to differentiate between 0 and 360 degrees
 	private int EAST_THRESHOLD = 3;
 	
+	private VisitNodes visited;
+	
 	public MyAIController(Car car) {
 		super(car);
+		this.visited = new VisitNodes(this.getMap());
 	}
 
 	Coordinate initialGuess;
@@ -37,6 +40,8 @@ public class MyAIController extends CarController{
 		
 		// Gets what the car can see
 		HashMap<Coordinate, MapTile> currentView = getView();
+		this.visited.addToMap(currentView);
+		
 		
 		checkStateChange();
 
