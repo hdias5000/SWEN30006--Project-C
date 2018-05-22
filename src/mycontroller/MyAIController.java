@@ -27,10 +27,16 @@ public class MyAIController extends CarController{
 	private int EAST_THRESHOLD = 3;
 	
 	private VisitNodes visited;
+	private PathFinder pathFinder;
 	
 	public MyAIController(Car car) {
 		super(car);
-		this.visited = new VisitNodes(this.getMap());
+		this.visited = new VisitNodes(this.getMap(), this);
+		this.pathFinder = new PathFinder(this.visited);
+	}
+	
+	public void informKey(int keyID, Coordinate keyCoord) {
+		
 	}
 
 	Coordinate initialGuess;
@@ -40,7 +46,12 @@ public class MyAIController extends CarController{
 		
 		// Gets what the car can see
 		HashMap<Coordinate, MapTile> currentView = getView();
-		this.visited.addToMap(currentView);
+		this.visited.addToSeen(currentView);
+		Coordinate start = new Coordinate(4,4);
+		Coordinate end = new Coordinate(1,9);
+		Path path = new Path(start,end,getOrientation());
+		path = this.pathFinder.returnPath(path);
+		path.tooString();
 		
 		
 		checkStateChange();
