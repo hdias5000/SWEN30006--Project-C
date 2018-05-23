@@ -26,15 +26,17 @@ public class MyAIController extends CarController{
 //	// Offset used to differentiate between 0 and 360 degrees
 //	private int EAST_THRESHOLD = 3;
 	
-	private VisitNodes visited;
+	private VisitNodes sensor;
 	private PathFinder pathFinder;
 	private CarMovement move;
+	private CompositeStrategy strategy;
 	
 	public MyAIController(Car car) {
 		super(car);
-		this.visited = new VisitNodes(this.getMap(), this);
-		this.pathFinder = new PathFinder(this.visited);
+		this.sensor = new VisitNodes(this.getMap(), this);
+		this.pathFinder = new PathFinder(this.sensor);
 		this.move = new CarMovement(this);
+		this.strategy = new CompositeStrategy(sensor);
 	}
 	
 	public void informKey(int keyID, Coordinate keyCoord) {
@@ -50,7 +52,8 @@ public class MyAIController extends CarController{
 		
 		// Gets what the car can see
 		HashMap<Coordinate, MapTile> currentView = getView();
-		this.visited.addToSeen(currentView);
+		this.sensor.addToSeen(currentView);
+		Coordinate destination = strategy.update();
 		Coordinate current = getCurrentCoord();
 		Coordinate end = new Coordinate(2,9);
 		Path path = new Path(current,end,getOrientation());
