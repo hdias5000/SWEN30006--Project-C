@@ -56,6 +56,10 @@ public class Path {
 		return this.directions.get(this.orderOfCoordinates.get(length));
 	}
 	
+	public WorldSpatial.Direction getDirection(Coordinate coord){
+		return this.directions.get(coord);
+	}
+	
 	public Coordinate getStart() {
 		return this.start;
 	}

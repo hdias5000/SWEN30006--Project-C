@@ -59,38 +59,41 @@ public class PathFinder {
 		Coordinate sameDir = findCoord(current,dir);
 		Coordinate left = findCoord(current,findLeftDir(dir));
 		Coordinate right = findCoord(current,findRightDir(dir));
-		Coordinate reverse = findCoord(current,findReverseDir(dir));
+		Coordinate sameDir1 = findCoord(sameDir,dir);
+		Coordinate left1 = findCoord(left,findLeftDir(dir));
+		Coordinate right1 = findCoord(right,findRightDir(dir));
+//		Coordinate reverse = findCoord(current,findReverseDir(dir));
 		
 //		bestTraverse.put(sameDir, value)
 		
-		if (checkNotWall(currentMap.get(sameDir)) && !path.checkVisited(sameDir)) {
+		if (checkNotWall(currentMap.get(sameDir)) && checkNotWall(currentMap.get(sameDir1)) && !path.checkVisited(sameDir)) {
 			if (calculateManhattanDistance(sameDir,end)<currentDistance) {
 				traverse.add(sameDir);
 			}else {
 				secondChoice.add(sameDir);
 			}
 		}
-		if (checkNotWall(currentMap.get(left)) && !path.checkVisited(left)) {
+		if (checkNotWall(currentMap.get(left)) && checkNotWall(currentMap.get(left1)) && !path.checkVisited(left)) {
 			if (calculateManhattanDistance(left,end)<currentDistance) {
 				traverse.add(left);
 			}else {
 				secondChoice.add(left);
 			}
 		}
-		if (checkNotWall(currentMap.get(right)) && !path.checkVisited(right)) {
+		if (checkNotWall(currentMap.get(right))&& checkNotWall(currentMap.get(right1)) && !path.checkVisited(right)) {
 			if (calculateManhattanDistance(right,end)<currentDistance) {
 				traverse.add(right);
 			}else {
 				secondChoice.add(right);
 			}
 		}
-		if (checkNotWall(currentMap.get(reverse)) && !path.checkVisited(reverse)) {
-			if (calculateManhattanDistance(reverse,end)<currentDistance) {
-				traverse.add(reverse);
-			}else {
-				secondChoice.add(reverse);
-			}
-		}
+//		if (checkNotWall(currentMap.get(reverse)) && !path.checkVisited(reverse)) {
+//			if (calculateManhattanDistance(reverse,end)<currentDistance) {
+//				traverse.add(reverse);
+//			}else {
+//				secondChoice.add(reverse);
+//			}
+//		}
 		while (secondChoice.peek()!=null) {
 			traverse.add(secondChoice.remove());
 		}
@@ -147,19 +150,19 @@ public class PathFinder {
 		return null;
 	}
 	
-	private WorldSpatial.Direction findReverseDir(WorldSpatial.Direction dir){
-		switch (dir) {
-		case EAST:
-			return WorldSpatial.Direction.WEST;
-		case WEST:
-			return WorldSpatial.Direction.EAST;
-		case NORTH:
-			return WorldSpatial.Direction.SOUTH;
-		case SOUTH:
-			return WorldSpatial.Direction.NORTH;
-		}
-		return null;
-	}
+//	private WorldSpatial.Direction findReverseDir(WorldSpatial.Direction dir){
+//		switch (dir) {
+//		case EAST:
+//			return WorldSpatial.Direction.WEST;
+//		case WEST:
+//			return WorldSpatial.Direction.EAST;
+//		case NORTH:
+//			return WorldSpatial.Direction.SOUTH;
+//		case SOUTH:
+//			return WorldSpatial.Direction.NORTH;
+//		}
+//		return null;
+//	}
 	
 	private WorldSpatial.Direction findDir(Coordinate start, Coordinate end){
 		if (((end.x-start.x)==1) && ((end.y-start.y)==0)) {
