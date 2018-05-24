@@ -20,7 +20,7 @@ public class CarMovement {
 	private WorldSpatial.Direction previousState = null; // Keeps track of the previous state
 	
 	// Car Speed to move at
-	private final double CAR_SPEED = 0.02;
+	private final double CAR_SPEED = 2;
 	
 	// Offset used to differentiate between 0 and 360 degrees
 	private int EAST_THRESHOLD = 3;

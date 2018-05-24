@@ -33,10 +33,11 @@ public class MyAIController extends CarController{
 	
 	public MyAIController(Car car) {
 		super(car);
-		this.sensor = new VisitNodes(this.getMap(), this);
+		this.strategy = new CompositeStrategy(sensor);
+		this.sensor = new VisitNodes(this.getMap(), this.strategy);
 		this.pathFinder = new PathFinder(this.sensor);
 		this.move = new CarMovement(this);
-		this.strategy = new CompositeStrategy(sensor);
+		
 	}
 	
 	public void informKey(int keyID, Coordinate keyCoord) {
@@ -57,7 +58,7 @@ public class MyAIController extends CarController{
 		Coordinate current = getCurrentCoord();
 		Coordinate end = new Coordinate(2,9);
 		Path path = new Path(current,end,getOrientation());
-		path = this.pathFinder.returnPath(path);
+		path = this.pathFinder.returnPath(path,1000);
 		move.update(delta, current, path);
 //		path.tooString();
 		

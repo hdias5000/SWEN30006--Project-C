@@ -13,4 +13,9 @@ public class CompositeStrategy implements IGoalStrategy{
 		return null;
 	}
 
+	public void informKey(int key, Coordinate currentCoord) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

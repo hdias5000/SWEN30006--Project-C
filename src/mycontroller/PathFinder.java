@@ -14,26 +14,41 @@ public class PathFinder {
 		this.sensor = sensor;
 	}
 //	Path path = new Path(start,end,dir);
-	public Path returnPath(Path path) {
+	public Path returnPath(Path path,int alpha) {
 		Coordinate current = path.getCurrent();
 		Coordinate end = path.getEnd();
 		if (checkIfEnd(current,end)) {
 			return path;
 		}
+		if (path.getLength()>alpha) {
+			return null;
+		}
 		Queue<Coordinate> traverse = findOrderToTraverse(path);
+		Path bestPath = null;
+		int bestScore = 1000;
 		while (traverse.peek()!=null) {
+//			System.out.println("you joking");
 			Coordinate newCoord = traverse.remove();
 			WorldSpatial.Direction newDir = findDir(current,newCoord);
 			path.changeDir(current, newDir);
 			path.addCoord(newCoord, newDir);
-			Path newPath = returnPath(path);
+			Path newPath = returnPath(new Path(path),alpha);
 			if (newPath!=null) {
-				return newPath;
+				System.out.println("you joking");
+				if (newPath.getLength()<bestScore) {
+					System.out.println(bestScore);
+					bestPath = newPath;
+					bestScore = newPath.getLength();
+					System.out.println(bestScore);
+				}
+				if (bestScore<alpha) {
+					alpha = bestScore;
+				}
 			}else {
-				path.backTrack(current);
+//				path.backTrack(current);
 			}
 		}
-		return null;
+		return bestPath;
 	}
 	
 	private int calculateManhattanDistance(Coordinate current, Coordinate end) {
@@ -59,9 +74,9 @@ public class PathFinder {
 		Coordinate sameDir = findCoord(current,dir);
 		Coordinate left = findCoord(current,findLeftDir(dir));
 		Coordinate right = findCoord(current,findRightDir(dir));
-		Coordinate sameDir1 = findCoord(sameDir,dir);
-		Coordinate left1 = findCoord(left,findLeftDir(dir));
-		Coordinate right1 = findCoord(right,findRightDir(dir));
+		Coordinate sameDir1 = findCoord(current,dir);
+		Coordinate left1 = findCoord(current,findLeftDir(dir));
+		Coordinate right1 = findCoord(current,findRightDir(dir));
 //		Coordinate reverse = findCoord(current,findReverseDir(dir));
 		
 //		bestTraverse.put(sameDir, value)

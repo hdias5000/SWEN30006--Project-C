@@ -26,6 +26,15 @@ public class Path {
 		this.directions.put(this.start, dir);
 	}
 	
+	public Path(Path another) {
+		this.start = another.start;
+		this.end = another.end;
+		this.length = another.length;
+		this.orderOfCoordinates = new ArrayList<Coordinate>(another.orderOfCoordinates);
+		this.visitedCoordinates = new ArrayList<Coordinate>(another.visitedCoordinates);
+		this.directions = new HashMap<Coordinate,WorldSpatial.Direction>(another.directions);
+	}
+	
 	public void backTrack(Coordinate coord) {
 		int index = this.orderOfCoordinates.indexOf(coord);
 		for (int i=index+1;i<=length;i++) {
