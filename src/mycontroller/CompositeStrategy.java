@@ -4,7 +4,7 @@ import utilities.Coordinate;
 
 public class CompositeStrategy implements IGoalStrategy{
 	
-	public enum Strategies {
+	private enum Strategies {
 		DISCOVER,
 		HEALTH,
 		KEY;
@@ -14,26 +14,31 @@ public class CompositeStrategy implements IGoalStrategy{
 	private DiscoverStrategy discoverStrat;
 	private HealthStrategy healthStrat;
 	private KeyStrategy keyStrat;
-	private VisitNodes sensor;
+	private MyAIController controller;
+	private static final float HEALTHLIMIT = 50f;
+	
 	public CompositeStrategy(MyAIController controller) {
-		this.sensor = sensor;
+		this.controller = controller;
 		
 		discoverStrat = new DiscoverStrategy();
-		healthStrat = new HealthStrategy();
+		healthStrat = new HealthStrategy(HEALTHLIMIT);
 		keyStrat = new KeyStrategy();
 		
-
 		currentStrategy = Strategies.DISCOVER;
 	}
 
 	public Coordinate update() {
-		//first make sure we're not gonna die
-		if (/*health*/)
-		// if we have found the next key go get it
-		else if (sensor.foundNextKey) {
+		// first make sure we're not gonna die
+		if (controller.getHealth() <= healthStrat.getHealthLimit()) {
+			currentStrategy = Strategies.HEALTH;
+		} else if (controller.foundNextKey()) {
+			// if we have found the next key go get it
+			keyStrat.updateKeys(/* key locations */);
 			currentStrategy = Strategies.KEY;
-		} 
-		
+		} else {
+			discoverStrat.updateMap(controller.getView());
+			currentStrategy = Strategies.DISCOVER;
+		}
 		
 		switch(currentStrategy) {
 			case DISCOVER:
