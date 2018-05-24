@@ -1,13 +1,26 @@
 package mycontroller;
 
+import java.util.ArrayList;
+
+import tiles.MapTile;
 import utilities.Coordinate;
 
 public class DiscoverStrategy implements IGoalStrategy {
 
+	private VisitNodes sensor;
+	
+	public DiscoverStrategy(VisitNodes sensor) {
+		this.sensor = sensor;
+	}
+
+	
 	@Override
 	public Coordinate update() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
+	public void updateMap() {
+		
+	}
 }

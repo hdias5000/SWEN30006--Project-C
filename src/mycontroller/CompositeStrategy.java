@@ -15,28 +15,27 @@ public class CompositeStrategy implements IGoalStrategy{
 	private HealthStrategy healthStrat;
 	private KeyStrategy keyStrat;
 	private MyAIController controller;
-	private static final float HEALTHLIMIT = 50f;
 	
 	public CompositeStrategy(MyAIController controller) {
 		this.controller = controller;
 		
-		discoverStrat = new DiscoverStrategy();
-		healthStrat = new HealthStrategy(HEALTHLIMIT);
-		keyStrat = new KeyStrategy();
+		discoverStrat = new DiscoverStrategy(controller.getSensor());
+		healthStrat = new HealthStrategy(controller.getSensor());
+		keyStrat = new KeyStrategy(controller.getSensor());
 		
 		currentStrategy = Strategies.DISCOVER;
 	}
 
 	public Coordinate update() {
+		// update the sensor map for all the strats
+		updateMap();
 		// first make sure we're not gonna die
 		if (controller.getHealth() <= healthStrat.getHealthLimit()) {
 			currentStrategy = Strategies.HEALTH;
-		} else if (controller.foundNextKey()) {
+		} else if (keyStrat.foundNextKey(controller.getKey())) {
 			// if we have found the next key go get it
-			keyStrat.updateKeys(/* key locations */);
 			currentStrategy = Strategies.KEY;
 		} else {
-			discoverStrat.updateMap(controller.getView());
 			currentStrategy = Strategies.DISCOVER;
 		}
 		
@@ -50,5 +49,12 @@ public class CompositeStrategy implements IGoalStrategy{
 			default:
 				return discoverStrat.update();
 		}
+	}
+	
+	@Override
+	public void updateMap() {
+		discoverStrat.updateMap();
+		healthStrat.updateMap();
+		keyStrat.updateMap();
 	}
 }
