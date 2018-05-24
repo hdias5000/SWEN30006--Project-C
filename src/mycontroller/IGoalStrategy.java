@@ -1,5 +1,7 @@
 package mycontroller;
 
-public interface IGoalStrategy {
+import utilities.Coordinate;
 
+public interface IGoalStrategy {
+	public Coordinate update();
 }
