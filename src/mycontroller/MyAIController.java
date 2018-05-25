@@ -33,11 +33,10 @@ public class MyAIController extends CarController{
 	
 	public MyAIController(Car car) {
 		super(car);
-		this.strategy = new CompositeStrategy(sensor);
-		this.sensor = new VisitNodes(this.getMap(), this.strategy);
+		this.sensor = new VisitNodes(this.getMap(), this);
 		this.pathFinder = new PathFinder(this.sensor);
 		this.move = new CarMovement(this);
-		
+		this.strategy = new CompositeStrategy(this);
 	}
 	
 	public void informKey(int keyID, Coordinate keyCoord) {
@@ -45,6 +44,11 @@ public class MyAIController extends CarController{
 			System.out.println("345");
 		}
 	}
+
+	public VisitNodes getSensor() {
+		return sensor;
+	}
+	
 
 	Coordinate initialGuess;
 	boolean notSouth = true;
@@ -56,11 +60,10 @@ public class MyAIController extends CarController{
 		this.sensor.addToSeen(currentView);
 		Coordinate destination = strategy.update();
 		Coordinate current = getCurrentCoord();
-		Coordinate end = new Coordinate(2,9);
-		Path path = new Path(current,end,getOrientation());
-		path = this.pathFinder.returnPath(path,1000);
+		Path path = new Path(current,destination,getOrientation());
+		path = this.pathFinder.returnPath(path);
 		move.update(delta, current, path);
-//		path.tooString();
+//		path.tooString();}
 		
 //		checkStateChange();
 //		
