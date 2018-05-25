@@ -14,16 +14,16 @@ public class VisitNodes {
 	private HashMap<Coordinate, MapTile> currentMap;
 	private HashMap<Coordinate, MapTile> notVisited;
 	private HashMap<Coordinate, MapTile> visited; 
-	private CompositeStrategy strategy;
+	private MyAIController controller;
 	
 	
-	public VisitNodes(HashMap<Coordinate, MapTile> map, CompositeStrategy strategy) {
+	public VisitNodes(HashMap<Coordinate, MapTile> map, MyAIController controller) {
 		this.currentMap = new HashMap<Coordinate, MapTile>();
 		this.notVisited = new HashMap<Coordinate, MapTile>();
 		addToMap(this.currentMap, map);
 		addToMap(this.notVisited, map);
 		this.visited = new HashMap<Coordinate, MapTile>();
-		this.strategy = strategy;
+		this.controller = controller;
 	}
 	
 	
@@ -42,7 +42,7 @@ public class VisitNodes {
 				if ((currentTile.isType(MapTile.Type.TRAP)) && (((TrapTile) currentTile).getTrap() == "lava")) {
 					int key = ((LavaTrap) currentTile).getKey();
 					if (key>0) {
-						this.strategy.informKey(key, currentCoord);
+						this.controller.informKey(key, currentCoord);
 					}
 				}
 			}
