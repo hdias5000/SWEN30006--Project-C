@@ -46,7 +46,7 @@ public class KeyStrategy implements IGoalStrategy {
 	}
 
 	@Override
-	public void updateMap() {
+	public void updateMap(Coordinate currentPos) {
 		checkMapForKey();
 	}
 }

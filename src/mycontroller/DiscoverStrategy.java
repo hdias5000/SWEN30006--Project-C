@@ -16,11 +16,11 @@ public class DiscoverStrategy implements IGoalStrategy {
 	
 	@Override
 	public Coordinate update() {
-		return new Coordinate(10,2);
+		return new Coordinate(2,9);
 	}
 
 	@Override
-	public void updateMap() {
+	public void updateMap(Coordinate currentPos) {
 		
 	}
 }

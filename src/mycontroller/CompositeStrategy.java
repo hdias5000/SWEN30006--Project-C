@@ -28,7 +28,7 @@ public class CompositeStrategy implements IGoalStrategy{
 
 	public Coordinate update() {
 		// update the sensor map for all the strats
-		updateMap();
+		updateMap(new Coordinate(controller.getPosition()));
 
 		// first make sure we're not gonna die
 		if (controller.getHealth() <= healthStrat.getHealthLimit()) {
@@ -53,9 +53,9 @@ public class CompositeStrategy implements IGoalStrategy{
 	}
 	
 	@Override
-	public void updateMap() {
-		discoverStrat.updateMap();
-		healthStrat.updateMap();
-		keyStrat.updateMap();
+	public void updateMap(Coordinate currentPos) {
+		discoverStrat.updateMap(currentPos);
+		healthStrat.updateMap(currentPos);
+		keyStrat.updateMap(currentPos);
 	}
 }
