@@ -7,6 +7,7 @@ import java.util.Queue;
 import tiles.MapTile;
 import utilities.Coordinate;
 import world.WorldSpatial;
+import world.WorldSpatial.Direction;
 
 public class PathFinder {
 	private Sensor sensor;
@@ -46,58 +47,46 @@ public class PathFinder {
 	
 	private Queue<Coordinate> findOrderToTraverse(Path path){
 		Coordinate current = path.getCurrent();
-		Coordinate end = path.getEnd();
+//		Coordinate end = path.getEnd();
 		WorldSpatial.Direction dir = path.getDirection(current);
-		int currentDistance = calculateManhattanDistance(current,end);
-		HashMap<Coordinate,MapTile> currentMap = this.sensor.getCurrentMap();
+//		int currentDistance = calculateManhattanDistance(current,end);
+//		HashMap<Coordinate,MapTile> currentMap = this.sensor.getCurrentMap();
 		
 		Queue<Coordinate> traverse = new LinkedList<Coordinate>(); 
 		Queue<Coordinate> secondChoice = new LinkedList<Coordinate>();
 		
 //		HashMap<Coordinate,Integer> bestTraverse = new HashMap<Coordinate,Integer>();
 		
-		Coordinate sameDir = findCoord(current,dir);
-		Coordinate left = findCoord(current,findLeftDir(dir));
-		Coordinate right = findCoord(current,findRightDir(dir));
-		Coordinate sameDir1 = findCoord(sameDir,dir);
-		Coordinate left1 = findCoord(left,findLeftDir(dir));
-		Coordinate right1 = findCoord(right,findRightDir(dir));
-//		Coordinate reverse = findCoord(current,findReverseDir(dir));
+//		Coordinate sameDir = findCoord(current,dir);
+//		Coordinate left = findCoord(current,findLeftDir(dir));
+//		Coordinate right = findCoord(current,findRightDir(dir));
 		
-//		bestTraverse.put(sameDir, value)
-		
-		if (checkNotWall(currentMap.get(sameDir)) && checkNotWall(currentMap.get(sameDir1)) && !path.checkVisited(sameDir)&& !path.checkVisited(sameDir1)) {
-			if (calculateManhattanDistance(sameDir,end)<currentDistance) {
-				traverse.add(sameDir);
-			}else {
-				secondChoice.add(sameDir);
-			}
-		}
-		if (checkNotWall(currentMap.get(left)) && checkNotWall(currentMap.get(left1)) && !path.checkVisited(left) && !path.checkVisited(left1)) {
-			if (calculateManhattanDistance(left,end)<currentDistance) {
-				traverse.add(left);
-			}else {
-				secondChoice.add(left);
-			}
-		}
-		if (checkNotWall(currentMap.get(right))&& checkNotWall(currentMap.get(right1)) && !path.checkVisited(right) && !path.checkVisited(right1)) {
-			if (calculateManhattanDistance(right,end)<currentDistance) {
-				traverse.add(right);
-			}else {
-				secondChoice.add(right);
-			}
-		}
-//		if (checkNotWall(currentMap.get(reverse)) && !path.checkVisited(reverse)) {
-//			if (calculateManhattanDistance(reverse,end)<currentDistance) {
-//				traverse.add(reverse);
-//			}else {
-//				secondChoice.add(reverse);
-//			}
-//		}
+		checkBeforeAdd(traverse,secondChoice,path,dir);
+		checkBeforeAdd(traverse,secondChoice,path,findLeftDir(dir));
+		checkBeforeAdd(traverse,secondChoice,path,findRightDir(dir));
 		while (secondChoice.peek()!=null) {
 			traverse.add(secondChoice.remove());
 		}
 		return traverse;
+	}
+	
+	private void checkBeforeAdd(Queue<Coordinate> traverse, Queue<Coordinate> secondChoice, Path path, Direction dir) {
+		Coordinate current = path.getCurrent();
+		Coordinate end = path.getEnd();
+		Coordinate coord = findCoord(current,dir);
+		int currentDistance = calculateManhattanDistance(current,end);
+		HashMap<Coordinate,MapTile> currentMap = this.sensor.getCurrentMap();
+		if (checkNotWall(currentMap.get(coord)) && !path.checkVisited(coord)) {
+//			if ((dir != path.getDirection(current)) && (checkNotWall(currentMap.get(findCoord(coord,dir))))) {
+//				secondChoice.add(coord);
+//			} else {
+				if (calculateManhattanDistance(coord,end)<currentDistance) {
+					traverse.add(coord);
+				}else {
+					secondChoice.add(coord);
+				}
+//			}
+		}
 	}
 
 	
