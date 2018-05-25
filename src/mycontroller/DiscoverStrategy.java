@@ -16,7 +16,7 @@ public class DiscoverStrategy implements IGoalStrategy {
 	
 	@Override
 	public Coordinate update() {
-		return null;
+		return new Coordinate(10,2);
 	}
 
 	@Override

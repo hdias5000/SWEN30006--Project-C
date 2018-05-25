@@ -8,6 +8,8 @@ import tiles.TrapTile;
 import utilities.Coordinate;
 
 public class KeyStrategy implements IGoalStrategy {
+	
+	private static final int MAX_KEYS = 100;
 
 	private VisitNodes sensor;
 	private Coordinate[] keyCoords;
@@ -15,6 +17,7 @@ public class KeyStrategy implements IGoalStrategy {
 	
 	public KeyStrategy(VisitNodes sensor) {
 		this.sensor = sensor;
+		keyCoords = new Coordinate[MAX_KEYS];
 	}
 	
 	public boolean foundNextKey(int currentKey) {
