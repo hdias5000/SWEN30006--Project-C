@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import utilities.Coordinate;
 import world.WorldSpatial;
+import world.WorldSpatial.Direction;
 
 public class Path {
 	private Coordinate start;
@@ -60,6 +61,13 @@ public class Path {
 	public boolean checkVisited(Coordinate coord) {
 		return visitedCoordinates.contains(coord);
 	}
+	
+	public Direction peek(Coordinate coord) {
+		int index = this.orderOfCoordinates.indexOf(coord);
+		return this.directions.get(this.orderOfCoordinates.get(index+1));
+	}
+	
+	
 	
 	public WorldSpatial.Direction currentDirection(){
 		return this.directions.get(this.orderOfCoordinates.get(length));
