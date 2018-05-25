@@ -6,7 +6,7 @@ import utilities.Coordinate;
 
 public class HealthStrategy implements IGoalStrategy {
 	
-	private static final float HEALTHLIMIT = 75f;
+	private static final float HEALTHLIMIT = 95f;
 	private Sensor sensor;
 	private Coordinate currentPos;
 	private boolean foundHealth;
@@ -36,7 +36,8 @@ public class HealthStrategy implements IGoalStrategy {
 		for (Coordinate coord: sensor.getCurrentMap().keySet()) {
 			MapTile tile = sensor.getCurrentMap().get(coord);
 			if ((tile.isType(MapTile.Type.TRAP)) && (((TrapTile) tile).getTrap().equals("health"))) {
-				if (!init) {
+				foundHealth = true;
+				if (init) {
 					closestSoFar = coord;
 				}
 				//System.out.println("Health coord: " + coord);
@@ -70,5 +71,10 @@ public class HealthStrategy implements IGoalStrategy {
 	public void updateMap(Coordinate currentPos) {
 		this.currentPos = currentPos;
 		closeHealth = findCloseHealth(currentPos);
+	}
+
+	public Object destinationReached() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

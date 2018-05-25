@@ -67,6 +67,11 @@ public class Sensor {
 	public HashMap<Coordinate, MapTile> getNotVisited() {
 		return this.notVisited;
 	}
+
+
+	public HashMap<Coordinate, MapTile> getVisited() {
+		return this.visited;
+	}
 	
 	
 }

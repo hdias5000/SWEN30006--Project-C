@@ -49,4 +49,9 @@ public class KeyStrategy implements IGoalStrategy {
 	public void updateMap(Coordinate currentPos) {
 		checkMapForKey();
 	}
+
+	public Object destinationReached() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

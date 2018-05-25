@@ -64,15 +64,20 @@ public class MyAIController extends CarController{
 		Coordinate destination = strategy.update();
 		setPath(destination);
 		System.out.println(destination);
-		currentPath.tooString();
-		move.update(delta, currentPath);
+		if (currentPath!=null) {
+			currentPath.tooString();
+			move.update(delta, currentPath);
+	
+		}
 	}
+		
 	
 	private void checkEndOfPath() {
 		Coordinate current = getCurrentCoord();
 		if (currentPath!=null) {
 			if((currentPath.getEnd().x == current.x) && (currentPath.getEnd().y == current.y)) {
 				currentPath = null;
+				strategy.destinationReached();
 			}
 		}
 	}

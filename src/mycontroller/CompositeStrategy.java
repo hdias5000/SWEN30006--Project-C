@@ -58,4 +58,16 @@ public class CompositeStrategy implements IGoalStrategy{
 		healthStrat.updateMap(currentPos);
 		keyStrat.updateMap(currentPos);
 	}
+
+	public void destinationReached() {
+		switch(currentStrategy) {
+		case DISCOVER:
+			discoverStrat.destinationReached();
+		case HEALTH:
+			healthStrat.destinationReached();
+		case KEY:
+			keyStrat.destinationReached();
+	}
+		
+	}
 }
