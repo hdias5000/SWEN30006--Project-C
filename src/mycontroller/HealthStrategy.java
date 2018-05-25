@@ -7,10 +7,10 @@ import utilities.Coordinate;
 public class HealthStrategy implements IGoalStrategy {
 	
 	private static final float HEALTHLIMIT = 75f;
-	private VisitNodes sensor;
+	private Sensor sensor;
 	private Coordinate currentPos;
 
-	public HealthStrategy(VisitNodes sensor) {
+	public HealthStrategy(Sensor sensor) {
 		this.sensor = sensor;
 	}
 	

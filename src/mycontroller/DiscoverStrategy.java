@@ -7,16 +7,16 @@ import utilities.Coordinate;
 
 public class DiscoverStrategy implements IGoalStrategy {
 
-	private VisitNodes sensor;
+	private Sensor sensor;
 	
-	public DiscoverStrategy(VisitNodes sensor) {
+	public DiscoverStrategy(Sensor sensor) {
 		this.sensor = sensor;
 	}
 
 	
 	@Override
 	public Coordinate update() {
-		return new Coordinate(2,9);
+		return new Coordinate(1,9);
 	}
 
 	@Override

@@ -61,6 +61,8 @@ public class Path {
 		return visitedCoordinates.contains(coord);
 	}
 	
+	
+	
 	public WorldSpatial.Direction currentDirection(){
 		return this.directions.get(this.orderOfCoordinates.get(length));
 	}

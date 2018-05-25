@@ -20,8 +20,8 @@ public class CarMovement {
 	private WorldSpatial.Direction previousState = null; // Keeps track of the previous state
 	
 	// Car Speed to move at
-	private final double CAR_SPEED = 3;
-	private final double TURN_SPEED = 1;
+	private final double CAR_SPEED = 2;
+	private final double TURN_SPEED = 0.1;
 	
 	// Offset used to differentiate between 0 and 360 degrees
 	private int EAST_THRESHOLD = 3;
@@ -32,14 +32,17 @@ public class CarMovement {
 	}
 	
 	public void update(float delta, Coordinate current, Path path) {
-		
+		path.tooString();
 		checkStateChange();
+//		System.out.println(this.getX());
 		
 		if (!turning) {
+			readjust(lastTurnDirection,delta);
+			
 			if(controller.getSpeed() < CAR_SPEED){
 				controller.applyForwardAcceleration();	
-			}else if (controller.getSpeed() < CAR_SPEED) {
-				controller.applyBrake();
+			}else if (controller.getSpeed() > CAR_SPEED) {
+//				controller.applyBrake();
 			}
 			if(!controller.getOrientation().equals(path.getDirection(current))) {
 				turning = true;
@@ -47,10 +50,8 @@ public class CarMovement {
 			}
 			
 		}else {
-			if(controller.getSpeed() < CAR_SPEED){
+			if(controller.getSpeed() < TURN_SPEED){
 				controller.applyForwardAcceleration();	
-			}else if (controller.getSpeed() < CAR_SPEED) {
-				controller.applyBrake();
 			}
 			if (isTurningRight) {
 				controller.turnRight(delta);
@@ -58,7 +59,7 @@ public class CarMovement {
 				controller.turnLeft(delta);
 			}
 			
-			readjust(lastTurnDirection,delta);
+//			readjust(lastTurnDirection,delta);
 			
 		}
 	}
@@ -88,7 +89,7 @@ public class CarMovement {
 		
 		switch(orientation){
 		case EAST:
-			if(controller.getAngle() > WorldSpatial.EAST_DEGREE_MIN+EAST_THRESHOLD){
+			if(controller.getAngle() > WorldSpatial.EAST_DEGREE_MIN){
 				controller.turnRight(delta);
 			}
 			break;
@@ -115,7 +116,9 @@ public class CarMovement {
 	}
 
 	private void adjustRight(WorldSpatial.Direction orientation, float delta) {
+		System.out.println(controller.getAngle());
 		switch(orientation){
+		
 		case EAST:
 			if(controller.getAngle() > WorldSpatial.SOUTH_DEGREE && controller.getAngle() < WorldSpatial.EAST_DEGREE_MAX){
 				controller.turnLeft(delta);

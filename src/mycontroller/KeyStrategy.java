@@ -11,11 +11,11 @@ public class KeyStrategy implements IGoalStrategy {
 	
 	private static final int MAX_KEYS = 100;
 
-	private VisitNodes sensor;
+	private Sensor sensor;
 	private Coordinate[] keyCoords;
 	private int currentKey;
 	
-	public KeyStrategy(VisitNodes sensor) {
+	public KeyStrategy(Sensor sensor) {
 		this.sensor = sensor;
 		keyCoords = new Coordinate[MAX_KEYS];
 	}
@@ -28,6 +28,7 @@ public class KeyStrategy implements IGoalStrategy {
 	}
 	
 	private boolean checkMapForKey() {
+		System.out.println(sensor.getCurrentMap());
 		for (Coordinate coord: sensor.getCurrentMap().keySet()) {
 			MapTile tile = sensor.getCurrentMap().get(coord);
 			if ((tile.isType(MapTile.Type.TRAP)) && (((TrapTile) tile).getTrap() == "lava")) {

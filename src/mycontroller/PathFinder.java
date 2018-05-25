@@ -9,11 +9,11 @@ import utilities.Coordinate;
 import world.WorldSpatial;
 
 public class PathFinder {
-	private VisitNodes sensor;
-	public PathFinder(VisitNodes sensor) {
+	private Sensor sensor;
+	public PathFinder(Sensor sensor) {
 		this.sensor = sensor;
 	}
-//	Path path = new Path(start,end,dir);
+	
 	public Path returnPath(Path path) {
 		Coordinate current = path.getCurrent();
 		Coordinate end = path.getEnd();
@@ -24,10 +24,9 @@ public class PathFinder {
 		while (traverse.peek()!=null) {
 			Coordinate newCoord = traverse.remove();
 			WorldSpatial.Direction newDir = findDir(current,newCoord);
-			Path traverseNewPath = new Path(path);
-			traverseNewPath.changeDir(current, newDir);
-			traverseNewPath.addCoord(newCoord, newDir);
-			Path newPath = returnPath(new Path(path));
+			path.changeDir(current, newDir);
+			path.addCoord(newCoord, newDir);
+			Path newPath = returnPath(path);
 			if (newPath!=null) {
 				return newPath;
 			}else {
@@ -48,7 +47,7 @@ public class PathFinder {
 	private Queue<Coordinate> findOrderToTraverse(Path path){
 		Coordinate current = path.getCurrent();
 		Coordinate end = path.getEnd();
-		WorldSpatial.Direction dir = path.currentDirection();
+		WorldSpatial.Direction dir = path.getDirection(current);
 		int currentDistance = calculateManhattanDistance(current,end);
 		HashMap<Coordinate,MapTile> currentMap = this.sensor.getCurrentMap();
 		
@@ -67,21 +66,21 @@ public class PathFinder {
 		
 //		bestTraverse.put(sameDir, value)
 		
-		if (checkNotWall(currentMap.get(sameDir)) && checkNotWall(currentMap.get(sameDir1)) && !path.checkVisited(sameDir)) {
+		if (checkNotWall(currentMap.get(sameDir)) && checkNotWall(currentMap.get(sameDir1)) && !path.checkVisited(sameDir)&& !path.checkVisited(sameDir1)) {
 			if (calculateManhattanDistance(sameDir,end)<currentDistance) {
 				traverse.add(sameDir);
 			}else {
 				secondChoice.add(sameDir);
 			}
 		}
-		if (checkNotWall(currentMap.get(left)) && checkNotWall(currentMap.get(left1)) && !path.checkVisited(left)) {
+		if (checkNotWall(currentMap.get(left)) && checkNotWall(currentMap.get(left1)) && !path.checkVisited(left) && !path.checkVisited(left1)) {
 			if (calculateManhattanDistance(left,end)<currentDistance) {
 				traverse.add(left);
 			}else {
 				secondChoice.add(left);
 			}
 		}
-		if (checkNotWall(currentMap.get(right))&& checkNotWall(currentMap.get(right1)) && !path.checkVisited(right)) {
+		if (checkNotWall(currentMap.get(right))&& checkNotWall(currentMap.get(right1)) && !path.checkVisited(right) && !path.checkVisited(right1)) {
 			if (calculateManhattanDistance(right,end)<currentDistance) {
 				traverse.add(right);
 			}else {
@@ -151,19 +150,6 @@ public class PathFinder {
 		return null;
 	}
 	
-//	private WorldSpatial.Direction findReverseDir(WorldSpatial.Direction dir){
-//		switch (dir) {
-//		case EAST:
-//			return WorldSpatial.Direction.WEST;
-//		case WEST:
-//			return WorldSpatial.Direction.EAST;
-//		case NORTH:
-//			return WorldSpatial.Direction.SOUTH;
-//		case SOUTH:
-//			return WorldSpatial.Direction.NORTH;
-//		}
-//		return null;
-//	}
 	
 	private WorldSpatial.Direction findDir(Coordinate start, Coordinate end){
 		if (((end.x-start.x)==1) && ((end.y-start.y)==0)) {
