@@ -30,8 +30,8 @@ public class CompositeStrategy implements IGoalStrategy{
 		// update the sensor map for all the strats
 		updateMap(new Coordinate(controller.getPosition()));
 
-		// first make sure we're not gonna die
-		if (controller.getHealth() <= healthStrat.getHealthLimit()) {
+		// first make sure we're not gonna die, get health if we know where health is
+		if ((controller.getHealth() <= healthStrat.getHealthLimit()) && healthStrat.hasFoundHealth()) {
 			currentStrategy = Strategies.HEALTH;
 		} else if (keyStrat.foundNextKey(controller.getKey())) {
 			// if we have found the next key go get it

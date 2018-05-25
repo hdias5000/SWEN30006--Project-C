@@ -7,11 +7,15 @@ import utilities.Coordinate;
 public class HealthStrategy implements IGoalStrategy {
 	
 	private static final float HEALTHLIMIT = 75f;
-	private VisitNodes sensor;
+	private Sensor sensor;
 	private Coordinate currentPos;
+	private boolean foundHealth;
+	private Coordinate closeHealth;
 
-	public HealthStrategy(VisitNodes sensor) {
+	public HealthStrategy(Sensor sensor) {
 		this.sensor = sensor;
+		foundHealth = false;
+		closeHealth = null;
 	}
 	
 	private Coordinate findAnyHealth() {
@@ -30,22 +34,26 @@ public class HealthStrategy implements IGoalStrategy {
 		boolean init = false;
 		Coordinate closestSoFar = null;
 		for (Coordinate coord: sensor.getCurrentMap().keySet()) {
-			if (!init) {
-				closestSoFar = coord;
-			}
 			MapTile tile = sensor.getCurrentMap().get(coord);
-			if ((tile.isType(MapTile.Type.TRAP)) && (((TrapTile) tile).getTrap() == "health")) {
+			if ((tile.isType(MapTile.Type.TRAP)) && (((TrapTile) tile).getTrap().equals("health"))) {
+				if (!init) {
+					closestSoFar = coord;
+				}
 				//System.out.println("Health coord: " + coord);
 				
 				// get the "closest" by sum of differences of x and y
 				if (((coord.x - currentPos.x) + (coord.y - currentPos.y)) < 
 						(closestSoFar.x - currentPos.x) + (closestSoFar.y - currentPos.y)) {
-							coord = closestSoFar;
+							closestSoFar = coord;
 						}
 			}
 			init = true;
 		}
 		return closestSoFar;
+	}
+	
+	public boolean hasFoundHealth() {
+		return foundHealth;
 	}
 
 	public float getHealthLimit() {
@@ -55,13 +63,12 @@ public class HealthStrategy implements IGoalStrategy {
 	@Override
 	public Coordinate update() {
 		//return findAnyHealth();
-		return findCloseHealth(currentPos);
+		return closeHealth;
 	}
-	
 
 	@Override
 	public void updateMap(Coordinate currentPos) {
 		this.currentPos = currentPos;
+		closeHealth = findCloseHealth(currentPos);
 	}
-
 }
