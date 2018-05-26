@@ -1,3 +1,11 @@
+/* GROUP NUMBER: 71
+ * NAME: Hasitha Dias      STUDENT ID: 789929
+ * NAME: Elliot Jenkins    STUDENT ID: 762686 
+ * 
+ * LAST MODIFIED: 27/05/2018
+ * 
+ * */
+
 package mycontroller;
 
 import java.util.HashMap;
@@ -26,7 +34,10 @@ public class Sensor {
 		this.controller = controller;
 	}
 	
-	
+	/**
+	 * Stores all the nodes seen by the radar of the car in visited and removes them from NotVisited. This function also informs AIController if it finds a key.
+	 * @param currentView
+	 */
 	public void addToSeen(HashMap<Coordinate, MapTile> currentView) {
 		Set<?> set = currentView.entrySet();
 		Iterator<?> iterator = set.iterator();
@@ -50,6 +61,11 @@ public class Sensor {
 	}
 
 	
+	/**
+	 * Copies all instances in one HashMap to another.
+	 * @param appendMap
+	 * @param newMap
+	 */
 	private void addToMap(HashMap<Coordinate, MapTile> appendMap,HashMap<Coordinate, MapTile> newMap) {
 		Set<?> set = newMap.entrySet();
 		Iterator<?> iterator = set.iterator();
@@ -59,18 +75,20 @@ public class Sensor {
 		}
 	}
 
-	
+	/**
+	 * 
+	 * @return currentMap
+	 */
 	public HashMap<Coordinate, MapTile> getCurrentMap() {
 		return this.currentMap;
 	}
 	
+	/**
+	 * 
+	 * @return notVisited coordinates
+	 */
 	public HashMap<Coordinate, MapTile> getNotVisited() {
 		return this.notVisited;
-	}
-
-
-	public HashMap<Coordinate, MapTile> getVisited() {
-		return this.visited;
 	}
 	
 	

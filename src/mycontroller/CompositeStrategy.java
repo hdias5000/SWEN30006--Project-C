@@ -1,3 +1,11 @@
+/* GROUP NUMBER: 71
+ * NAME: Hasitha Dias      STUDENT ID: 789929
+ * NAME: Elliot Jenkins    STUDENT ID: 762686 
+ * 
+ * LAST MODIFIED: 27/05/2018
+ * 
+ * */
+
 package mycontroller;
 
 import utilities.Coordinate;
@@ -25,7 +33,11 @@ public class CompositeStrategy implements IGoalStrategy{
 		
 		currentStrategy = Strategies.DISCOVER;
 	}
-
+	
+	/**
+	 * Called by AIController to choose a strategy.
+	 * @return destination coordinate depending on the strategy
+	 */
 	public Coordinate update() {
 		// update the sensor map for all the strats
 		updateMap(new Coordinate(controller.getPosition()));
@@ -52,13 +64,20 @@ public class CompositeStrategy implements IGoalStrategy{
 		}
 	}
 	
+	/**
+	 * Updates the maps for all the strategies.
+	 * @param currentPos
+	 */
 	@Override
 	public void updateMap(Coordinate currentPos) {
 		discoverStrat.updateMap(currentPos);
 		healthStrat.updateMap(currentPos);
 		keyStrat.updateMap(currentPos);
 	}
-
+	
+	/**
+	 * Called by AIController to inform that destination has been reached.
+	 */
 	public void destinationReached() {
 		switch(currentStrategy) {
 		case DISCOVER:

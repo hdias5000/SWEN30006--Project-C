@@ -1,3 +1,11 @@
+/* GROUP NUMBER: 71
+ * NAME: Hasitha Dias      STUDENT ID: 789929
+ * NAME: Elliot Jenkins    STUDENT ID: 762686 
+ * 
+ * LAST MODIFIED: 27/05/2018
+ * 
+ * */
+
 package mycontroller;
 
 import tiles.MapTile;
@@ -18,6 +26,10 @@ public class HealthStrategy implements IGoalStrategy {
 		closeHealth = null;
 	}
 	
+	/**
+	 * Finds any health tile.
+	 * @return path
+	 */
 	private Coordinate findAnyHealth() {
 		for (Coordinate coord: sensor.getCurrentMap().keySet()) {
 			MapTile tile = sensor.getCurrentMap().get(coord);
@@ -29,6 +41,11 @@ public class HealthStrategy implements IGoalStrategy {
 		return null;
 	}
 	
+	/**
+	 * Finds the closest health to currentPos.
+	 * @param currentPos
+	 * @return closest health to currentPos
+	 */
 	private Coordinate findCloseHealth(Coordinate currentPos) {
 		// init is to initialise closestSoFar to the first coord in the current map
 		boolean init = false;
@@ -53,26 +70,43 @@ public class HealthStrategy implements IGoalStrategy {
 		return closestSoFar;
 	}
 	
+	/**
+	 * 
+	 * @return true if health is found
+	 */
 	public boolean hasFoundHealth() {
 		return foundHealth;
 	}
 
+	/**
+	 * 
+	 * @return lowest Health Limit
+	 */
 	public float getHealthLimit() {
 		return HEALTHLIMIT;
 	}
 
+	/**
+	 * 
+	 * @return th closest health found
+	 */
 	@Override
 	public Coordinate update() {
 		//return findAnyHealth();
 		return closeHealth;
 	}
 
+	/**
+	 * Updates current position and finds Health tile closest to the Current Position.
+	 * @param currentPos
+	 */
 	@Override
 	public void updateMap(Coordinate currentPos) {
 		this.currentPos = currentPos;
 		closeHealth = findCloseHealth(currentPos);
 	}
-
+	
+//////////////////////////////////////////maybe
 	public Object destinationReached() {
 		// TODO Auto-generated method stub
 		return null;

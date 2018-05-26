@@ -1,3 +1,11 @@
+/* GROUP NUMBER: 71
+ * NAME: Hasitha Dias      STUDENT ID: 789929
+ * NAME: Elliot Jenkins    STUDENT ID: 762686 
+ * 
+ * LAST MODIFIED: 27/05/2018
+ * 
+ * */
+
 package mycontroller;
 
 import java.util.HashMap;
@@ -31,43 +39,69 @@ public class CarMovement {
 		this.controller = myAIController;
 	}
 	
+	/**
+	 * Called by AIController with a set Path and this function makes the car move accordingly.
+	 * @param delta
+	 * @param path
+	 */
 	public void update(float delta, Path path) {
 		Coordinate current = new Coordinate(controller.getPosition());
 		checkStateChange();
 		System.out.println(controller.getX());
 		
+		//different behavior if turning 
 		if (!turning) {
 			readjust(lastTurnDirection,delta);
+			///////////////////////////////////////////////////////////////////////////////////////////////
+			for (int i=0;i<10000;i++) {
+				readjustPosition(delta);
+			}
 			
+			//gets the car upto speed
 			if(controller.getSpeed() < CAR_SPEED){
 				controller.applyForwardAcceleration();	
 			}else if (controller.getSpeed() > CAR_SPEED) {
 //				controller.applyBrake();
 			}
+			//initiates function for turn if turn is required
 			if(!controller.getOrientation().equals(path.getDirection(current))) {
 				turning = true;
 				applyTurn(path.getDirection(current),delta);
 			}
 			
 		}else {
+			//gets the car upto speed
 			if(controller.getSpeed() < TURN_SPEED){
 				controller.applyForwardAcceleration();	
 			}
+			//turns the car according to direction
 			if (isTurningRight) {
 				controller.turnRight(delta);
 			}else if(isTurningLeft) {
 				controller.turnLeft(delta);
 			}
-			
-//			readjust(lastTurnDirection,delta);
 		}
-		
+		//reversing if stopped by wall - maybe remove
 		if (controller.getSpeed() == 0) {
 			for (int i=0;i<1000;i++) {
 				controller.applyReverseAcceleration();
 			}
 		}
 	}
+/////////////////////////////////////////////////////////////remove this
+	private void readjustPosition(float delta) {
+		Coordinate coord = new Coordinate(controller.getPosition());
+		WorldSpatial.Direction dir = controller.getOrientation(); 
+		float x = controller.getX();
+		float y = controller.getY();
+		if (((dir.equals(WorldSpatial.Direction.NORTH))&&(coord.x>x)) || ((dir.equals(WorldSpatial.Direction.EAST))&&(coord.y<y)) || ((dir.equals(WorldSpatial.Direction.SOUTH))&&(coord.x<x)) || ((dir.equals(WorldSpatial.Direction.WEST))&&(coord.y>y))) {
+			controller.turnLeft(delta);
+		}
+		if (((dir.equals(WorldSpatial.Direction.NORTH))&&(coord.x<x)) || ((dir.equals(WorldSpatial.Direction.EAST))&&(coord.y>y)) || ((dir.equals(WorldSpatial.Direction.SOUTH))&&(coord.x>x)) || ((dir.equals(WorldSpatial.Direction.WEST))&&(coord.y<y))) {
+			controller.turnRight(delta);
+		}
+	}
+	
 	
 	/**
 	 * Readjust the car to the orientation we are in.
@@ -89,6 +123,8 @@ public class CarMovement {
 	/**
 	 * Try to orient myself to a degree that I was supposed to be at if I am
 	 * misaligned.
+	 * @param orientation
+	 * @param delta
 	 */
 	private void adjustLeft(WorldSpatial.Direction orientation, float delta) {
 		
@@ -120,6 +156,12 @@ public class CarMovement {
 		
 	}
 
+	/**
+	 * Try to orient myself to a degree that I was supposed to be at if I am
+	 * misaligned.
+	 * @param orientation
+	 * @param delta
+	 */
 	private void adjustRight(WorldSpatial.Direction orientation, float delta) {
 		System.out.println(controller.getAngle());
 		switch(orientation){
@@ -174,7 +216,11 @@ public class CarMovement {
 		}
 	}
 	
-	
+	/**
+	 * Initiates a turn in the correct direction depending on the orientation.
+	 * @param orientation
+	 * @param delta
+	 */
 	private void applyTurn(WorldSpatial.Direction orientation, float delta) {
 		switch(orientation){
 		case EAST:
@@ -226,9 +272,5 @@ public class CarMovement {
 		
 		}
 	}
-	
-//	private boolean checkWall() {
-//		
-//	}
 
 }

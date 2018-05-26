@@ -1,3 +1,11 @@
+/* GROUP NUMBER: 71
+ * NAME: Hasitha Dias      STUDENT ID: 789929
+ * NAME: Elliot Jenkins    STUDENT ID: 762686 
+ * 
+ * LAST MODIFIED: 27/05/2018
+ * 
+ * */
+
 package mycontroller;
 
 import java.util.HashMap;
@@ -9,22 +17,6 @@ import world.Car;
 import world.WorldSpatial;
 
 public class MyAIController extends CarController{
-
-//	// How many minimum units the wall is away from the player.
-//	private int wallSensitivity = 2;
-//	
-//	
-//	private boolean turning = false; // This is initialized when the car sticks to a wall.
-//	private WorldSpatial.RelativeDirection lastTurnDirection = null; // Shows the last turn direction the car takes.
-//	private boolean isTurningLeft = false;
-//	private boolean isTurningRight = false; 
-//	private WorldSpatial.Direction previousState = null; // Keeps track of the previous state
-//	
-//	// Car Speed to move at
-//	private final float CAR_SPEED = 2;
-//	
-//	// Offset used to differentiate between 0 and 360 degrees
-//	private int EAST_THRESHOLD = 3;
 	
 	private Sensor sensor;
 	private PathFinder pathFinder;
@@ -41,19 +33,10 @@ public class MyAIController extends CarController{
 		this.currentPath = null;
 	}
 	
-	public void informKey(int keyID, Coordinate keyCoord) {
-		for (int i =0;i<100;i++) {
-			System.out.println("345");
-		}
-	}
-
-	public Sensor getSensor() {
-		return sensor;
-	}
-	
-
-	Coordinate initialGuess;
-	boolean notSouth = true;
+	/**
+	 * This functions calls the strategy to obtain the destination, then calls the pathfinder to find the path and finally calls the CarMovement object to move the car.
+	 * @param delta
+	 */
 	@Override
 	public void update(float delta) {
 		
@@ -61,9 +44,11 @@ public class MyAIController extends CarController{
 		HashMap<Coordinate, MapTile> currentView = getView();
 		this.sensor.addToSeen(currentView);
 		checkEndOfPath();
+		
 		Coordinate destination = strategy.update();
 		setPath(destination);
 		System.out.println(destination);
+		//if a path exists, makes car move
 		if (currentPath!=null) {
 			currentPath.tooString();
 			move.update(delta, currentPath);
@@ -71,9 +56,11 @@ public class MyAIController extends CarController{
 		}
 	}
 		
-	
+	/**
+	 * Checks if the end of the path has been reached.
+	 */
 	private void checkEndOfPath() {
-		Coordinate current = getCurrentCoord();
+		Coordinate current = new Coordinate(getPosition());
 		if (currentPath!=null) {
 			if((currentPath.getEnd().x == current.x) && (currentPath.getEnd().y == current.y)) {
 				currentPath = null;
@@ -82,8 +69,13 @@ public class MyAIController extends CarController{
 		}
 	}
 	
+	/**
+	 * Sets a new path if the destination has changed.
+	 * @param destination
+	 * @return path
+	 */
 	private Path setPath(Coordinate destination) {
-		Coordinate currentPos = getCurrentCoord();
+		Coordinate currentPos = new Coordinate(getPosition());
 		if (currentPath == null) {
 			currentPath = this.pathFinder.returnPath(new Path(currentPos,destination,getOrientation()));
 		} else if((currentPath.getEnd().x != destination.x) || (currentPath.getEnd().y != destination.y)) {
@@ -92,9 +84,24 @@ public class MyAIController extends CarController{
 		return currentPath;
 	}
 	
-	
-	private Coordinate getCurrentCoord() {
-		return new Coordinate(getPosition());
+	/**
+	 * This function is called by Sensor to inform of any newly found keys.
+	 * @param keyID
+	 * @param keyCoord
+	 */
+	public void informKey(int keyID, Coordinate keyCoord) {
+		for (int i =0;i<100;i++) {
+			System.out.println("345");
+		}
 	}
+
+	/**
+	 * 
+	 * @return the object of sensor
+	 */
+	public Sensor getSensor() {
+		return sensor;
+	}
+	
 	
 }
