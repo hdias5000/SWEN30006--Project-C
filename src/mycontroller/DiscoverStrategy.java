@@ -1,3 +1,11 @@
+/* GROUP NUMBER: 71
+	 * NAME: Hasitha Dias      STUDENT ID: 789929
+	 * NAME: Elliot Jenkins    STUDENT ID: 762686 
+	 * 
+	 * LAST MODIFIED: 27/05/2018
+	 * 
+	 * */
+
 package mycontroller;
 
 import java.util.ArrayList;
@@ -23,12 +31,19 @@ public class DiscoverStrategy implements IGoalStrategy {
 		//getNewDest();
 	}
 
-	
+	/**
+	 * 
+	 * @return the next destination according to the Discover strategy
+	 */
 	@Override
 	public Coordinate update() {
 		return getClosestDiscoveryPoint();
 	}
 
+	/**
+	 * 
+	 * @param currentPos
+	 */
 	@Override
 	public void updateMap(Coordinate currentPos) {
 		// update this so we can know where newly discovered lava is and where we've already discovered
@@ -97,22 +112,6 @@ public class DiscoverStrategy implements IGoalStrategy {
 		return coords;
 	}
 	
-	/*
-	public void getNewDest() {
-		Coordinate coord;
-		boolean done = false;
-		Random random = new Random();
-		ArrayList<Coordinate> keys = new ArrayList<Coordinate>(sensor.getNotVisited().keySet());
-		while (!done) {
-			coord = keys.get(random.nextInt(keys.size()) );
-			MapTile tile = sensor.getCurrentMap().get(coord);
-			if ((tile != null)&&((tile.isType(MapTile.Type.ROAD)))) {
-				done=true;
-				destCoord = coord;
-			}
-		}
-	}
-	*/
 	public void destinationReached() {
 	}
 
@@ -126,4 +125,5 @@ public class DiscoverStrategy implements IGoalStrategy {
 		}
 		return closestSoFar;
 	}
+
 }
