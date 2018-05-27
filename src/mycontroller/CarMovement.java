@@ -28,7 +28,7 @@ public class CarMovement {
 	private WorldSpatial.Direction previousState = null; // Keeps track of the previous state
 	
 	// Car Speed to move at
-	private final double CAR_SPEED = 2;
+	private final double CAR_SPEED = 3;
 	private final double TURN_SPEED = 0.1;
 	
 	// Offset used to differentiate between 0 and 360 degrees
@@ -52,10 +52,6 @@ public class CarMovement {
 		//different behavior if turning 
 		if (!turning) {
 			readjust(lastTurnDirection,delta);
-			///////////////////////////////////////////////////////////////////////////////////////////////
-			for (int i=0;i<10000;i++) {
-				readjustPosition(delta);
-			}
 			
 			//gets the car upto speed
 			if(controller.getSpeed() < CAR_SPEED){

@@ -39,7 +39,7 @@ public class MyAIController extends CarController{
 	 */
 	@Override
 	public void update(float delta) {
-		
+		Coordinate currentPos = new Coordinate(getPosition());
 		// Gets what the car can see
 		HashMap<Coordinate, MapTile> currentView = getView();
 		this.sensor.addToSeen(currentView);
@@ -47,6 +47,7 @@ public class MyAIController extends CarController{
 		
 		Coordinate destination = strategy.update();
 		setPath(destination);
+//		currentPath = this.pathFinder.returnPath(new Path(currentPos,destination,getOrientation()));
 		System.out.println(destination);
 		//if a path exists, makes car move
 		if (currentPath!=null) {
