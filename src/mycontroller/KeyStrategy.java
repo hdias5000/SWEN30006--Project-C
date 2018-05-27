@@ -29,7 +29,7 @@ public class KeyStrategy implements IGoalStrategy {
 	}
 	
 	/**
-	 * 
+	 * Check if the next key has been found
 	 * @param currentKey
 	 * @return true if the next key is found 
 	 */
@@ -42,8 +42,8 @@ public class KeyStrategy implements IGoalStrategy {
 	}
 	
 	/**
-	 * Finds key in the map.
-	 * @return true if key is found
+	 * Finds any keys in the map.
+	 * @return true if a key is found
 	 */
 	private boolean checkMapForKey() {
 		for (Coordinate coord: sensor.getCurrentMap().keySet()) {
@@ -65,11 +65,16 @@ public class KeyStrategy implements IGoalStrategy {
 	 */
 	@Override
 	public Coordinate update() {
-		return keyCoords[currentKey - 1];
+		if (foundNextKey(currentKey)) {
+			return keyCoords[currentKey - 1];
+		}
+		else {
+			return null;
+		}
 	}
 	
 	/**
-	 * Checks if map contains any keys.
+	 * Checks if the map contains any keys.
 	 */
 	@Override
 	public void updateMap(Coordinate currentPos) {

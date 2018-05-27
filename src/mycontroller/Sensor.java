@@ -50,12 +50,6 @@ public class Sensor {
 				this.visited.put(currentCoord,currentTile);
 				this.currentMap.remove(currentCoord);
 				this.currentMap.put(currentCoord,currentTile);
-				if ((currentTile.isType(MapTile.Type.TRAP)) && (((TrapTile) currentTile).getTrap() == "lava")) {
-					int key = ((LavaTrap) currentTile).getKey();
-					if (key>0) {
-						this.controller.informKey(key, currentCoord);
-					}
-				}
 			}
 		}
 	}

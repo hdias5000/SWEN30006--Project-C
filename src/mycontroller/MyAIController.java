@@ -84,17 +84,6 @@ public class MyAIController extends CarController{
 		}
 		return currentPath;
 	}
-	
-	/**
-	 * This function is called by Sensor to inform of any newly found keys.
-	 * @param keyID
-	 * @param keyCoord
-	 */
-	public void informKey(int keyID, Coordinate keyCoord) {
-		for (int i =0;i<100;i++) {
-			System.out.println("345");
-		}
-	}
 
 	/**
 	 * 

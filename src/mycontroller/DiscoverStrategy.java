@@ -20,20 +20,16 @@ import world.World;
 public class DiscoverStrategy implements IGoalStrategy {
 
 	private Sensor sensor;
-	private Coordinate destCoord;
 	private ArrayList<Coordinate> discoveryPoints;
 	private Coordinate currentPos;
 	
 	public DiscoverStrategy(Sensor sensor) {
 		this.sensor = sensor;
-		this.destCoord = new Coordinate(15,3);
-		//System.out.println(sensor.getNotVisited().get(new Coordinate(1,1)).isType(MapTile.Type.ROAD));
-		//getNewDest();
 	}
 
 	/**
-	 * 
-	 * @return the next destination according to the Discover strategy
+	 * Update to get the coordinate in discoveryPoint closest to the car's current position
+	 * @return the next destination coordinate
 	 */
 	@Override
 	public Coordinate update() {
@@ -41,8 +37,8 @@ public class DiscoverStrategy implements IGoalStrategy {
 	}
 
 	/**
-	 * 
-	 * @param currentPos
+	 * Update the map to find the newest undiscovered points to go to
+	 * @param currentPos the position of the car
 	 */
 	@Override
 	public void updateMap(Coordinate currentPos) {
@@ -53,8 +49,6 @@ public class DiscoverStrategy implements IGoalStrategy {
 	}
 	
 	private ArrayList<Coordinate> findDiscoveryPoints(HashMap<Coordinate, MapTile> map) {
-		System.out.println("finding discovery points");
-
 		ArrayList<Coordinate> coords = new ArrayList<Coordinate>();
 		int height = World.MAP_HEIGHT;
 		int width = World.MAP_WIDTH;
@@ -62,9 +56,9 @@ public class DiscoverStrategy implements IGoalStrategy {
 		// overlapping viewed tiles is better than not discovering tiles
 		int gridSize = Car.VIEW_SQUARE * 2;
 		
-		// start at 1 and not <= height or width because there'll always be a wall around the map 
-		for (int y = 1; y < height; y += gridSize) {
-			for (int x = 1; x < width; x += gridSize) {
+		// not = height or width because there'll always be a wall around the map 
+		for (int y = gridSize/2; y < height; y += gridSize) {
+			for (int x = gridSize/2; x < width; x += gridSize) {
 				Coordinate centrePoint = new Coordinate(x,y);
 				
 				// find the point in the map closest to the centrePoint
@@ -73,13 +67,12 @@ public class DiscoverStrategy implements IGoalStrategy {
 				int centreY = centrePoint.y;
 				boolean foundRoad = false;
 				// check tiles around the centrePoint in an outwards spiral pattern for roads
-				// alternate i and j between 0 and 1 then add that to centreX/Y to get the spiral pattern
-				Integer i=0, j=1;
+				// alternate i and j between 0,1,0,-1 then add that to centreX/Y to get the spiral pattern
+				int i=0, j=1;
 				for (int count = 0; !foundRoad; count++) {
 					for (int side=0; !foundRoad && side<=count/2; side++) {
 						centreX+=i;
 						centreY+=j;
-						//System.out.println("count: " + count + ", side: " + side + ", i: " + i + ", j: " + j);
 						Coordinate newCentrePoint = new Coordinate(centreX, centreY);
 						if (map.get(newCentrePoint) != null && (map.get(newCentrePoint).isType(MapTile.Type.ROAD))) {
 							coords.add(newCentrePoint);
@@ -108,13 +101,14 @@ public class DiscoverStrategy implements IGoalStrategy {
 				
 			}
 		}
-		System.out.println(coords);
+		//System.out.println(coords);
 		return coords;
 	}
 	
 	public void destinationReached() {
 	}
 
+	// get the discovery point closest to the car's current position
 	private Coordinate getClosestDiscoveryPoint() {
 		Coordinate closestSoFar = discoveryPoints.get(0);
 		for(Coordinate coord : discoveryPoints) {
