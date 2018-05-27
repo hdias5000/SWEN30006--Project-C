@@ -33,7 +33,7 @@ public class HealthStrategy implements IGoalStrategy {
 	private Coordinate findAnyHealth() {
 		for (Coordinate coord: sensor.getCurrentMap().keySet()) {
 			MapTile tile = sensor.getCurrentMap().get(coord);
-			if ((tile.isType(MapTile.Type.TRAP)) && (((TrapTile) tile).getTrap() == "health")) {
+			if ((tile.isType(MapTile.Type.TRAP)) && (((TrapTile) tile).getTrap().equals("health"))) {
 				return coord;
 			}
 		}
