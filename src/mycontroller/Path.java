@@ -163,5 +163,9 @@ public class Path {
 		}
 		System.out.println("yeah");
 	}
+
+	public boolean checkInPath(Coordinate current) {
+		return this.orderOfCoordinates.contains(current);
+	}
 	
 }

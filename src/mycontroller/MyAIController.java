@@ -23,6 +23,7 @@ public class MyAIController extends CarController{
 	private CarMovement move;
 	private CompositeStrategy strategy;
 	private Path currentPath;
+	private Coordinate currentDest;
 	
 	public MyAIController(Car car) {
 		super(car);
@@ -31,6 +32,7 @@ public class MyAIController extends CarController{
 		this.move = new CarMovement(this);
 		this.strategy = new CompositeStrategy(this);
 		this.currentPath = null;
+		this.currentDest = null;
 	}
 	
 	/**
@@ -44,11 +46,11 @@ public class MyAIController extends CarController{
 		HashMap<Coordinate, MapTile> currentView = getView();
 		this.sensor.addToSeen(currentView);
 		checkEndOfPath();
-		
-		Coordinate destination = strategy.update();
-		setPath(destination);
-//		currentPath = this.pathFinder.returnPath(new Path(currentPos,destination,getOrientation()));
-		System.out.println(destination);
+	
+		this.currentDest = strategy.update();
+		setPath(this.currentDest);
+
+		System.out.println(this.currentDest);
 		//if a path exists, makes car move
 		if (currentPath!=null) {
 			currentPath.tooString();
@@ -73,16 +75,15 @@ public class MyAIController extends CarController{
 	/**
 	 * Sets a new path if the destination has changed.
 	 * @param destination
-	 * @return path
 	 */
-	private Path setPath(Coordinate destination) {
+	private void setPath(Coordinate destination) {
 		Coordinate currentPos = new Coordinate(getPosition());
 		if (currentPath == null) {
-			currentPath = this.pathFinder.returnPath(new Path(currentPos,destination,getOrientation()));
+			this.currentPath = this.pathFinder.returnPath(new Path(currentPos,destination,getOrientation()));
 		} else if((currentPath.getEnd().x != destination.x) || (currentPath.getEnd().y != destination.y)) {
-			currentPath = this.pathFinder.returnPath(new Path(currentPos,destination,getOrientation()));
+			this.currentPath = this.pathFinder.returnPath(new Path(currentPos,destination,getOrientation()));
 		}
-		return currentPath;
+		
 	}
 
 	/**
@@ -91,6 +92,13 @@ public class MyAIController extends CarController{
 	 */
 	public Sensor getSensor() {
 		return sensor;
+	}
+
+	public Path requestNewPath() {
+		Coordinate currentPos = new Coordinate(getPosition());
+		this.currentPath = this.pathFinder.returnPath(new Path(currentPos,this.currentDest,getOrientation()));
+		return this.currentPath;
+		
 	}
 	
 	

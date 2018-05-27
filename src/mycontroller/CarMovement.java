@@ -49,6 +49,11 @@ public class CarMovement {
 		checkStateChange();
 		System.out.println(controller.getX());
 		
+		if (!path.checkInPath(current)) {
+			path = this.controller.requestNewPath();
+		}
+		
+		
 		//different behavior if turning 
 		if (!turning) {
 			readjust(lastTurnDirection,delta);
@@ -56,8 +61,6 @@ public class CarMovement {
 			//gets the car upto speed
 			if(controller.getSpeed() < CAR_SPEED){
 				controller.applyForwardAcceleration();	
-			}else if (controller.getSpeed() > CAR_SPEED) {
-//				controller.applyBrake();
 			}
 			//initiates function for turn if turn is required
 			if(!controller.getOrientation().equals(path.getDirection(current))) {
