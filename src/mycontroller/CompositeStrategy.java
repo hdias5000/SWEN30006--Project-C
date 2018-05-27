@@ -39,7 +39,7 @@ public class CompositeStrategy implements IGoalStrategy{
 	 * @return destination coordinate depending on the strategy
 	 */
 	public Coordinate update() {
-		// update the sensor map for all the strats
+		// update the sensor map for all the strats so they can preprocess it
 		updateMap(new Coordinate(controller.getPosition()));
 
 		// first make sure we're not gonna die, get health if we know where health is

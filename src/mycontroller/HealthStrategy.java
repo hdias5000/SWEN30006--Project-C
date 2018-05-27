@@ -27,14 +27,13 @@ public class HealthStrategy implements IGoalStrategy {
 	}
 	
 	/**
-	 * Finds any health tile.
+	 * Finds any health tile in the current map.
 	 * @return path
 	 */
 	private Coordinate findAnyHealth() {
 		for (Coordinate coord: sensor.getCurrentMap().keySet()) {
 			MapTile tile = sensor.getCurrentMap().get(coord);
 			if ((tile.isType(MapTile.Type.TRAP)) && (((TrapTile) tile).getTrap() == "health")) {
-				//System.out.println("Health coord: " + coord);
 				return coord;
 			}
 		}
@@ -47,17 +46,15 @@ public class HealthStrategy implements IGoalStrategy {
 	 * @return closest health to currentPos
 	 */
 	private Coordinate findCloseHealth(Coordinate currentPos) {
-		// init is to initialise closestSoFar to the first coord in the current map
-		boolean init = false;
 		Coordinate closestSoFar = null;
 		for (Coordinate coord: sensor.getCurrentMap().keySet()) {
 			MapTile tile = sensor.getCurrentMap().get(coord);
 			if ((tile.isType(MapTile.Type.TRAP)) && (((TrapTile) tile).getTrap().equals("health"))) {
 				foundHealth = true;
-				if (init) {
+				if (closestSoFar == null) {
+					// it's the first interation
 					closestSoFar = coord;
 				}
-				//System.out.println("Health coord: " + coord);
 				
 				// get the "closest" by sum of differences of x and y
 				if (((coord.x - currentPos.x) + (coord.y - currentPos.y)) < 
@@ -65,13 +62,12 @@ public class HealthStrategy implements IGoalStrategy {
 							closestSoFar = coord;
 						}
 			}
-			init = true;
 		}
 		return closestSoFar;
 	}
 	
 	/**
-	 * 
+	 * Check if any health has been found on the map
 	 * @return true if health is found
 	 */
 	public boolean hasFoundHealth() {
@@ -79,16 +75,14 @@ public class HealthStrategy implements IGoalStrategy {
 	}
 
 	/**
-	 * 
-	 * @return lowest Health Limit
+	 * @return lowest Health Limit, the lowest the health can be before changing strat
 	 */
 	public float getHealthLimit() {
 		return HEALTHLIMIT;
 	}
 
 	/**
-	 * 
-	 * @return th closest health found
+	 * @return the closest health found
 	 */
 	@Override
 	public Coordinate update() {
