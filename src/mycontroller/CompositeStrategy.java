@@ -75,18 +75,4 @@ public class CompositeStrategy implements IGoalStrategy{
 		keyStrat.updateMap(currentPos);
 	}
 	
-	/**
-	 * Called by AIController to inform that destination has been reached.
-	 */
-	public void destinationReached() {
-		switch(currentStrategy) {
-		case DISCOVER:
-			discoverStrat.destinationReached();
-		case HEALTH:
-			healthStrat.destinationReached();
-		case KEY:
-			keyStrat.destinationReached();
-	}
-		
-	}
 }

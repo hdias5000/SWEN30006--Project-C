@@ -8,17 +8,12 @@
 
 package mycontroller;
 
-import java.util.HashMap;
-
 import tiles.MapTile;
 import utilities.Coordinate;
 import world.WorldSpatial;
 
 public class CarMovement {
 	MyAIController controller;
-	
-	// How many minimum units the wall is away from the player.
-	private int wallSensitivity = 2;
 	
 	
 	private boolean turning = false; // This is initialized when the car sticks to a wall.
@@ -87,20 +82,7 @@ public class CarMovement {
 			}
 		}
 	}
-/////////////////////////////////////////////////////////////remove this
-	private void readjustPosition(float delta) {
-		Coordinate coord = new Coordinate(controller.getPosition());
-		WorldSpatial.Direction dir = controller.getOrientation(); 
-		float x = controller.getX();
-		float y = controller.getY();
-		if (((dir.equals(WorldSpatial.Direction.NORTH))&&(coord.x>x)) || ((dir.equals(WorldSpatial.Direction.EAST))&&(coord.y<y)) || ((dir.equals(WorldSpatial.Direction.SOUTH))&&(coord.x<x)) || ((dir.equals(WorldSpatial.Direction.WEST))&&(coord.y>y))) {
-			controller.turnLeft(delta);
-		}
-		if (((dir.equals(WorldSpatial.Direction.NORTH))&&(coord.x<x)) || ((dir.equals(WorldSpatial.Direction.EAST))&&(coord.y>y)) || ((dir.equals(WorldSpatial.Direction.SOUTH))&&(coord.x>x)) || ((dir.equals(WorldSpatial.Direction.WEST))&&(coord.y<y))) {
-			controller.turnRight(delta);
-		}
-	}
-	
+
 	
 	/**
 	 * Readjust the car to the orientation we are in.

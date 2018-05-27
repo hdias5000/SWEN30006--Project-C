@@ -86,7 +86,6 @@ public class HealthStrategy implements IGoalStrategy {
 	 */
 	@Override
 	public Coordinate update() {
-		//return findAnyHealth();
 		return closeHealth;
 	}
 
@@ -98,11 +97,5 @@ public class HealthStrategy implements IGoalStrategy {
 	public void updateMap(Coordinate currentPos) {
 		this.currentPos = currentPos;
 		closeHealth = findCloseHealth(currentPos);
-	}
-	
-//////////////////////////////////////////maybe
-	public Object destinationReached() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

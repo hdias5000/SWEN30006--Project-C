@@ -11,6 +11,7 @@ package mycontroller;
 import utilities.Coordinate;
 
 public interface IGoalStrategy {
+	//common functions in all strategy functions
 	public Coordinate update();
 	public void updateMap(Coordinate currentPos);
 }

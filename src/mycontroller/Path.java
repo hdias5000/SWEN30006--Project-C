@@ -35,17 +35,6 @@ public class Path {
 		this.directions.put(this.start, dir);
 	}
 	
-	//*******************remove this
-	// copy constructor
-	public Path(Path another) {
-		this.start = another.start;
-		this.end = another.end;
-		this.length = another.length;
-		this.orderOfCoordinates = new ArrayList<Coordinate>(another.orderOfCoordinates);
-		this.visitedCoordinates = new ArrayList<Coordinate>(another.visitedCoordinates);
-		this.directions = new HashMap<Coordinate,WorldSpatial.Direction>(another.directions);
-	}
-	
 	 
 	/**
 	 * Used to go back to a point in the path if it doesn't lead to the destination.
@@ -150,20 +139,12 @@ public class Path {
 	public int getLength() {
 		return this.length;
 	}
-//*******************remove this	
+
 	/**
 	 * 
-	 * @return starting position of the Path	
+	 * @param coord
+	 * @return true if coord in the Path	
 	 */
-	public void tooString() {
-		
-		for (int i = 0; i<this.orderOfCoordinates.size();i++) {
-			Coordinate coord = this.orderOfCoordinates.get(i);
-			System.out.printf("(%d,%d)->",coord.x,coord.y);
-		}
-		System.out.println("yeah");
-	}
-
 	public boolean checkInPath(Coordinate current) {
 		return this.orderOfCoordinates.contains(current);
 	}

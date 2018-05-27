@@ -17,7 +17,7 @@ import utilities.Coordinate;
 import world.WorldSpatial;
 import world.WorldSpatial.Direction;
 
-public class PathFinder {
+public class PathFinder implements IPathFinderStrategy{
 	private Sensor sensor;
 	public PathFinder(Sensor sensor) {
 		this.sensor = sensor;

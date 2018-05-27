@@ -8,8 +8,6 @@
 
 package mycontroller;
 
-import java.util.ArrayList;
-
 import tiles.LavaTrap;
 import tiles.MapTile;
 import tiles.TrapTile;
@@ -81,9 +79,4 @@ public class KeyStrategy implements IGoalStrategy {
 		checkMapForKey();
 	}
 	
-	//////////////////////////////////////////maybe
-	public Object destinationReached() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

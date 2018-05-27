@@ -13,25 +13,21 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import tiles.LavaTrap;
 import tiles.MapTile;
-import tiles.TrapTile;
 import utilities.Coordinate;
 
 public class Sensor {
 	private HashMap<Coordinate, MapTile> currentMap;
 	private HashMap<Coordinate, MapTile> notVisited;
 	private HashMap<Coordinate, MapTile> visited; 
-	private MyAIController controller;
 	
 	
-	public Sensor(HashMap<Coordinate, MapTile> map, MyAIController controller) {
+	public Sensor(HashMap<Coordinate, MapTile> map) {
 		this.currentMap = new HashMap<Coordinate, MapTile>();
 		this.notVisited = new HashMap<Coordinate, MapTile>();
 		addToMap(this.currentMap, map);
 		addToMap(this.notVisited, map);
 		this.visited = new HashMap<Coordinate, MapTile>();
-		this.controller = controller;
 	}
 	
 	/**

@@ -10,7 +10,6 @@ package mycontroller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
 import tiles.MapTile;
 import utilities.Coordinate;
@@ -101,12 +100,9 @@ public class DiscoverStrategy implements IGoalStrategy {
 				
 			}
 		}
-		//System.out.println(coords);
 		return coords;
 	}
 	
-	public void destinationReached() {
-	}
 
 	// get the discovery point closest to the car's current position
 	private Coordinate getClosestDiscoveryPoint() {
