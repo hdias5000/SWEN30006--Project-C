@@ -47,7 +47,6 @@ public class MyAIController extends CarController{
 		this.currentDest = strategy.update();
 		setPath(this.currentDest);
 
-		System.out.println(this.currentDest);
 		//if a path exists, makes car move
 		if (currentPath!=null) {
 			move.update(delta, currentPath);

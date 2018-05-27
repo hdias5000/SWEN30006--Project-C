@@ -42,7 +42,6 @@ public class CarMovement {
 	public void update(float delta, Path path) {
 		Coordinate current = new Coordinate(controller.getPosition());
 		checkStateChange();
-		System.out.println(controller.getX());
 		
 		if (!path.checkInPath(current)) {
 			path = this.controller.requestNewPath();
